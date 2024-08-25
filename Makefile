@@ -1,18 +1,31 @@
-CC = avr-gcc
-CFLAGS = -mmcu=atmega32
+TARGET := prog
+SRC_DIR := src
+BLD_DIR := build
 
 
-MAIN: 
-	$(CC) $(CFLAGS) -c main.c -o main.o
+SRC_DIRS := $(shell find $(SRC_DIR) -type d) 
+SRCS := $(wildcard $(addsuffix /*.c,$(SRC_DIRS)))
+OBJS := $(patsubst $(SRC_DIR)/%.c,$(BLD_DIR)/%.o,$(SRCS))
 
-DIO:
-	$(CC) $(CFLAGS) -c MCAL/DIO/DIO.c -o dio.o
+CC := avr-gcc
+CFLAGS := -mmcu=atmega32
+CFLAGS := -I $(SRC_DIR)
 
-LINK: main.o dio.o
-	$(CC) $(CFLAGS) dio.o main.o -o prog.elf
+.PHONY: all clean
+.SECONDEXPANSION:
 
-HEX: LINK
-	avr-objcopy -j .text -O ihex prog.elf prog.hex
+all: $(BLD_DIR)/$(TARGET).elf
+	avr-objcopy -j .text -O ihex  $(BLD_DIR)/$(TARGET).elf $(TARGET).hex
 
-all: MAIN DIO LINK HEX
-	@echo "Created everything"
+$(BLD_DIR)/$(TARGET).elf: $(OBJS) | $(BLD_DIR)/
+	$(CC) $(CFLAGS) $^ -o $(BLD_DIR)/$(TARGET).elf
+
+$(BLD_DIR)/%.o: $(SRC_DIR)/%.c | $(BLD_DIR)/$$(dir %)
+	@echo Building $< into $@
+	$(CC) $(CFLAGS) -c $< -o $@
+
+%/:
+	mkdir -p $@
+
+clean:
+	rm -rf $(BLD_DIR) $(TARGET).hex
