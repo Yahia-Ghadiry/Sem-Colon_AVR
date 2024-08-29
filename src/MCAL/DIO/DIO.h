@@ -47,6 +47,8 @@
 #define PIN7_ID 7
 
 
+#define PIN_HIGH_IMPEDANCE	0
+#define PIN_PULL_UP 1
 
 #define PIN_LOW	0
 #define PIN_HIGH	1
