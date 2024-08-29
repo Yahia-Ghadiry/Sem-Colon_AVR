@@ -89,13 +89,13 @@ void DIO_vSetPinValue(u8 u8Port_ID, u8 u8Pin_ID, u8 u8Value)
                 SetBit(PORTA, u8Pin_ID);
                 break;
             case PORTB_ID:
-                SetBit(DDRB, u8Pin_ID);
+                SetBit(PORTB, u8Pin_ID);
                 break;
             case PORTC_ID:
-                SetBit(DDRC, u8Pin_ID);
+                SetBit(PORTC, u8Pin_ID);
                 break;
             case PORTD_ID:
-                SetBit(DDRD, u8Pin_ID);
+                SetBit(PORTD, u8Pin_ID);
                 break;
         }
     }
