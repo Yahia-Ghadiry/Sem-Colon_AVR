@@ -10,13 +10,14 @@ OBJS := $(patsubst $(SRC_DIR)/%.c,$(BLD_DIR)/%.o,$(SRCS))
 
 CC := avr-gcc
 CFLAGS := -mmcu=atmega32
+CFLAGS += -O3
 
 .PHONY: all clean
 .SECONDEXPANSION:
 
 all: $(OBJS) | $(BLD_DIR)/
 	$(CC) $(CFLAGS) $^ -o $(BLD_DIR)/$(TARGET).elf
-	avr-objcopy -j .text -O ihex  $(BLD_DIR)/$(TARGET).elf $(TARGET).hex
+	avr-objcopy -O ihex -R .eeprom $(BLD_DIR)/$(TARGET).elf $(TARGET).hex
 	cp $(TARGET).hex ../$(PROJECT)
 
 $(BLD_DIR)/%.o: $(SRC_DIR)/%.c $(HEADERS)| $(BLD_DIR)/$$(dir %)

@@ -43,15 +43,14 @@ void LCD_vSendData(u8 u8Data)
     _delay_us(43);
 }
 
-void LCD_vSendString()
+void LCD_vSendString(const u8 *sString)
 {
-    char sString[] = "YAHIA";
     int i = 0;
+    
     while (sString[i] != '\0')
     {
         LCD_vSendData(sString[i]);
         PORTD = sString[i];
-        _delay_ms(400);
         i++;
     }
 }
@@ -65,10 +64,17 @@ void LCD_vSendInt(u8 u8Int)
         copy /= 10;
         length++;
     }
-    u8 IntString[length + 1];
-    for (u8 i = 0; i < length; i++)
+    
+    if (length == 0)
     {
-        IntString[i] = '0' + (u8Int %10);
+        LCD_vSendData('0');
+        return;
+    }
+
+    u8 IntString[length + 1];
+    for (u8 i = 1; i <= length; i++)
+    {
+        IntString[length - i] = '0' + (u8Int %10);
         u8Int /= 10;
     }
     IntString[length] = '\0';
@@ -79,4 +85,16 @@ void LCD_vSendInt(u8 u8Int)
 void LCD_vMoveCursor(u8 u8Postion)
 {
     LCD_vSendCommand(LCD_SET_DDRAM_ADDRESS_BAISE | u8Postion);
+}
+
+void LCD_vMakeCustomChar(u8 CustomChar[], u8 u8CGPositon)
+{
+    LCD_vSendCommand(LCD_SET_CGRAM_ADDRESS_BAISE | u8CGPositon);
+   
+    for (u8 i = 0; i < 8; i++)
+    {
+        LCD_vSendData(CustomChar[i]);    
+    }
+
+    LCD_vMoveCursor(LCD_LINE1_POSITION | LCD_CHAR1_POSITION);
 }

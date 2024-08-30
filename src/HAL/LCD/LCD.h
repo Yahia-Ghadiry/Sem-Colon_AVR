@@ -68,13 +68,17 @@
 #define LCD_CHAR7_POSITION 0x06
 #define LCD_CHAR8_POSITION 0x07
 
+// CGRAM
+#define LCD_SET_CGRAM_ADDRESS_BAISE 0x40
+
 
 void LCD_vInitialize(u8 u8FunctionSet, u8 u8DisplayControl, u8 u8EntryMode);
 void LCD_vSendCommand(u8 u8Command);
 void LCD_vSendData(u8 u8Data);
-void LCD_vSendString();
+void LCD_vSendString(const u8 *sStringa);
 void LCD_vSendInt(u8 u8Int);
 void LCD_vMoveCursor(u8 u8Postion);
 void LCD_vClearScreen();
+void LCD_vMakeCustomChar(u8 CustomChar[], u8 u8CGPositon);
 
 #endif /**LCD_H_**/
