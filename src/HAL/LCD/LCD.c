@@ -87,7 +87,7 @@ void LCD_vMoveCursor(u8 u8Postion)
     LCD_vSendCommand(LCD_SET_DDRAM_ADDRESS_BAISE | u8Postion);
 }
 
-void LCD_vMakeCustomChar(u8 CustomChar[], u8 u8CGPositon)
+void LCD_vMakeCustomChar(const u8 CustomChar[], u8 u8CGPositon)
 {
     LCD_vSendCommand(LCD_SET_CGRAM_ADDRESS_BAISE | u8CGPositon);
    

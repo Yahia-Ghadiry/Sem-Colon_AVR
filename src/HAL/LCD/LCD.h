@@ -79,6 +79,6 @@ void LCD_vSendString(const u8 *sStringa);
 void LCD_vSendInt(u8 u8Int);
 void LCD_vMoveCursor(u8 u8Postion);
 void LCD_vClearScreen();
-void LCD_vMakeCustomChar(u8 CustomChar[], u8 u8CGPositon);
+void LCD_vMakeCustomChar(const u8 CustomChar[], u8 u8CGPositon);
 
 #endif /**LCD_H_**/

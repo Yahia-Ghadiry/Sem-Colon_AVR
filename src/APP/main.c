@@ -19,7 +19,10 @@
 
 #define USER_NAME "YAHIA"
 #define USER_AGE 19
-u8 customChar[] = {
+#define CUSTOM_CHAR_ADDRESS LCD_CHAR1_POSITION
+
+
+const u8 customChar[] = {
   0b00000,
   0b11011,
   0b11011,
@@ -29,6 +32,7 @@ u8 customChar[] = {
   0b01110,
   0b10001
 };
+
 
 
 void Mode1(u8 u8Mode_ID);
@@ -42,7 +46,7 @@ int main(void)
 
     LCD_vInitialize(LCD_FUNCTION_SET_BAISE | LCD_2_LINE | LCD_5x8, LCD_DISPLAY_ON_OFF_CONTROL_BAISE |  LCD_DISPLAY_ON | LCD_CURSOR_OFF | LCD_BLINK_OFF, LCD_ENTRY_MODE_SET_BAISE | LCD_CURSOR_INC_MODE | LCD_SHIFT_DISPLAY_OFF);
 
-    LCD_vMakeCustomChar(customChar, LCD_SET_CGRAM_ADDRESS_BAISE | LCD_CHAR1_POSITION);
+    LCD_vMakeCustomChar(customChar, LCD_SET_CGRAM_ADDRESS_BAISE | CUSTOM_CHAR_ADDRESS);
 
     u8 u8read_switch = BUTTON_DOWN;
 
@@ -87,6 +91,8 @@ void Mode1(u8 u8Mode_ID)
             LCD_vSendString(USER_NAME);
             LCD_vMoveCursor(LCD_LINE2_POSITION | LCD_CHAR1_POSITION);
             LCD_vSendInt(USER_AGE);
+            LCD_vSendData(' ');
+            LCD_vSendData(CUSTOM_CHAR_ADDRESS);
 
         }
 
