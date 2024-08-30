@@ -1,19 +1,16 @@
 #include "LCD.h"
 
+
 void LCD_vInitialize(u8 u8FunctionSet, u8 u8DisplayControl, u8 u8EntryMode)
 {
     DIO_vSetPortDirection(LCD_DATA_PORT_ID, PORT_OUTPUT); 
     DIO_vSetPinDirection(LCD_RS_PORT_ID, LCD_RS_PIN_ID, PIN_OUTPUT);
     DIO_vSetPinDirection(LCD_E_PORT_ID, LCD_E_PIN_ID, PIN_OUTPUT);
 
-    _delay_ms(30);
     LCD_vSendCommand(u8FunctionSet);
-    _delay_us(40);
     LCD_vSendCommand(u8DisplayControl);
     LCD_vClearScreen();
-    _delay_us(2);
     LCD_vSendCommand(u8EntryMode);
-    _delay_us(40);
 }
 
 void LCD_vSendCommand(u8 u8Command)
@@ -22,14 +19,16 @@ void LCD_vSendCommand(u8 u8Command)
     DIO_vSetPinValue(LCD_RS_PORT_ID, LCD_RS_PIN_ID, PIN_LOW);
 
     DIO_vSetPinValue(LCD_E_PORT_ID, LCD_E_PIN_ID, PIN_HIGH);
-    _delay_ms(2);
+    _delay_us(1);
     DIO_vSetPinValue(LCD_E_PORT_ID, LCD_E_PIN_ID, PIN_LOW);
+
+    _delay_us(39);
 }
 
 void LCD_vClearScreen()
 {
     LCD_vSendCommand(LCD_CLEAR_SCREEN);
-    _delay_us(2);
+    _delay_ms(2);
 }
 
 void LCD_vSendData(u8 u8Data)
@@ -38,8 +37,46 @@ void LCD_vSendData(u8 u8Data)
     DIO_vSetPinValue(LCD_RS_PORT_ID, LCD_RS_PIN_ID, PIN_HIGH);
 
     DIO_vSetPinValue(LCD_E_PORT_ID, LCD_E_PIN_ID, PIN_HIGH);
-    _delay_ms(2);
+    _delay_us(1);
     DIO_vSetPinValue(LCD_E_PORT_ID, LCD_E_PIN_ID, PIN_LOW);
     
-    _delay_us(44);
+    _delay_us(43);
+}
+
+void LCD_vSendString()
+{
+    char sString[] = "YAHIA";
+    int i = 0;
+    while (sString[i] != '\0')
+    {
+        LCD_vSendData(sString[i]);
+        PORTD = sString[i];
+        _delay_ms(400);
+        i++;
+    }
+}
+
+void LCD_vSendInt(u8 u8Int)
+{
+    u8 length = 0;
+    u8 copy = u8Int;
+    while(copy != 0)
+    {
+        copy /= 10;
+        length++;
+    }
+    u8 IntString[length + 1];
+    for (u8 i = 0; i < length; i++)
+    {
+        IntString[i] = '0' + (u8Int %10);
+        u8Int /= 10;
+    }
+    IntString[length] = '\0';
+    LCD_vSendString(IntString);
+
+}
+
+void LCD_vMoveCursor(u8 u8Postion)
+{
+    LCD_vSendCommand(LCD_SET_DDRAM_ADDRESS_BAISE | u8Postion);
 }

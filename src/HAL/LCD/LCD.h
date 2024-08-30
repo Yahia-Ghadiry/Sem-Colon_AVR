@@ -1,6 +1,8 @@
 #ifndef LCD_H_
 #define LCD_H_
 
+#define F_CPU 8000000UL
+
 #include "../../LIB/BitMath.h"
 #include "../../LIB/STD_types.h"
 #include "../../MCAL/DIO/DIO.h"
@@ -15,6 +17,7 @@
 
 #define LCD_RS_PORT_ID PORTB_ID
 #define LCD_RS_PIN_ID PIN1_ID
+
 
 // Function set
 #define LCD_FUNCTION_SET_BAISE 0x30
@@ -49,11 +52,29 @@
 #define LCD_SHIFT_DISPLAY_OFF 0x00
 #define LCD_SHIFT_DISPLAY_ON 0x01
 
+// Cursor Position
+
+#define LCD_SET_DDRAM_ADDRESS_BAISE 0x80
+
+#define LCD_LINE1_POSITION 0x00
+#define LCD_LINE2_POSITION 0x40
+
+#define LCD_CHAR1_POSITION 0x00
+#define LCD_CHAR2_POSITION 0x01
+#define LCD_CHAR3_POSITION 0x02
+#define LCD_CHAR4_POSITION 0x03
+#define LCD_CHAR5_POSITION 0x04
+#define LCD_CHAR6_POSITION 0x05
+#define LCD_CHAR7_POSITION 0x06
+#define LCD_CHAR8_POSITION 0x07
+
+
 void LCD_vInitialize(u8 u8FunctionSet, u8 u8DisplayControl, u8 u8EntryMode);
 void LCD_vSendCommand(u8 u8Command);
 void LCD_vSendData(u8 u8Data);
-//void LCD_vSendString();
-//void LCD_vMoveCursor()
+void LCD_vSendString();
+void LCD_vSendInt(u8 u8Int);
+void LCD_vMoveCursor(u8 u8Postion);
 void LCD_vClearScreen();
 
 #endif /**LCD_H_**/
