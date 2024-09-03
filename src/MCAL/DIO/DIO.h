@@ -1,8 +1,3 @@
-/*
- * DIO.h
- */ 
-
-
 #ifndef DIO_H_
 #define DIO_H_
 
@@ -64,9 +59,6 @@
 
 #define PORT_LOW	0
 #define PORT_HIGH	0xFF
-
-/*******************************Functions*****************************************/
-
 
 
 void DIO_vSetPinDirection (u8 u8Port_ID, u8 u8Pin_ID, u8 u8Direction);

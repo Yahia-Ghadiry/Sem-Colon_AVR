@@ -1,7 +1,7 @@
 TARGET := prog
 SRC_DIR := src
 BLD_DIR := build
-PROJECT :=  task2
+PROJECT :=  task3
 
 SRC_DIRS := $(shell find $(SRC_DIR) -type d) 
 SRCS := $(wildcard $(addsuffix /*.c,$(SRC_DIRS)))
