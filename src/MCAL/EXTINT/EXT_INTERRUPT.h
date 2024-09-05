@@ -47,10 +47,15 @@
 
 #define IC2_SENSE_MASK 0b1
 
-// Intruput IDs and Enable Bit
-#define EXT_INT0_ID 6
-#define EXT_INT1_ID 7
-#define EXT_INT2_ID 5
+// Flag
+#define FLAG_ENABLE 1
+#define FLAG_DISABLE 0
+
+
+// Intruput IDs
+#define EXT_INT0_ID 1
+#define EXT_INT1_ID 2
+#define EXT_INT2_ID 3
 
 // Intruput IDs
 #define _VECTOR(N)	__vector_ ## N
@@ -73,6 +78,7 @@
 void EXTINT_vGlobalINT_Enable();
 void EXTINT_vGlobalINT_Disable();
 void EXTINT_vInit(u8 u8IntID, u8 u8SenseControl);    
+void EXTINT_vEnableInterrupt(u8 u8IntID);
 void EXTINT_vDisableInterrupt(u8 u8IntID);
 u8 EXTINT_u8GetFlag(u8 u8IntID);
 void EXTINT_vSetCallBack(void (*pvCallBack)(void) , u8 u8IntID);
