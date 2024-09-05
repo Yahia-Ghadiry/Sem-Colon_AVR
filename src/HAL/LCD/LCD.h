@@ -80,7 +80,7 @@
 #define LCD_SET_CGRAM_ADDRESS_BAISE 0x40
 
 
-void LCD_vInitialize(u8 u8FunctionSet, u8 u8DisplayControl, u8 u8EntryMode);
+void LCD_vInit(u8 u8FunctionSet, u8 u8DisplayControl, u8 u8EntryMode);
 void LCD_vSendCommand(u8 u8Command);
 void LCD_vSendData(u8 u8Data);
 void LCD_vSendString(const u8 *sStringa);

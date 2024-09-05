@@ -1,7 +1,7 @@
 #include "LCD.h"
 
 
-void LCD_vInitialize(u8 u8FunctionSet, u8 u8DisplayControl, u8 u8EntryMode)
+void LCD_vInit(u8 u8FunctionSet, u8 u8DisplayControl, u8 u8EntryMode)
 {
     DIO_vSetPortDirection(LCD_DATA_PORT_ID, PORT_OUTPUT); 
     DIO_vSetPinDirection(LCD_RS_PORT_ID, LCD_RS_PIN_ID, PIN_OUTPUT);
