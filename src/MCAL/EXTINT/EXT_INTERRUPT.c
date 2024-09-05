@@ -88,6 +88,6 @@ u8 EXTINT_u8GetFlag(u8 u8IntID)
 
 void EXTINT_vSetCallBack(void (*pvCallBack)(void) , u8 u8IntID)
 {
-
+ // USE ISR macro
 }
 

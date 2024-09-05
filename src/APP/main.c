@@ -2,6 +2,7 @@
 
 #include "../LIB/BitMath.h"
 #include "../LIB/STD_types.h"
+#include "../MCAL/EXTINT/EXT_INTERRUPT.h"
 #include "../HAL/LCD/LCD.h"
 #include "../HAL/BUTTON/Button.h"
 #include "../HAL/KEYPAD/Keypad.h"
@@ -14,6 +15,10 @@
 #define BUTTON_CONTINUE_PORT_ID PORTC_ID
 #define BUTTON_CONTINUE_PIN_ID PIN0_ID
 
+#define LED_PAUSED_PORT_ID PORTC_ID
+#define LED_PAUSED_PIN_ID PIN6_ID
+
+
 #define ON_OFF_KEY 0
 #define KEYPAD_SYMBOlS (volatile char[4 * 4]){'7', '8', '9', '/', '4', '5', '6', '*', '1', '2', '3', '-', ON_OFF_KEY, '0', '=', '+'} 
 #define ON_OFF_KEY_INDEX 12
@@ -24,23 +29,43 @@
 #define VOTEING_D_INDEX 15
 
 
-void Voting();
+void vVoting();
+void vPauseVoting();
+void vFinishVoting();
 
 int main(void)
 {
+    sei();
+    EXTINT_vInit(EXT_INT0_ID, RISING_EDGE);
+    EXTINT_vInit(EXT_INT2_ID, RISING_EDGE);
+    
+
     BUTTON_vInitButton(BUTTON_CONTINUE_PORT_ID, BUTTON_CONTINUE_PIN_ID, PIN_PULL_UP);
 
     LCD_vInit(LCD_FUNCTION_SET_BAISE | LCD_2_LINE | LCD_5x8, LCD_DISPLAY_ON_OFF_CONTROL_BAISE |  LCD_DISPLAY_ON | LCD_CURSOR_OFF | LCD_BLINK_OFF, LCD_ENTRY_MODE_SET_BAISE | LCD_CURSOR_INC_MODE | LCD_SHIFT_DISPLAY_OFF);
     
     KEYPAD_vInit(KEYPAD_PULL_UP); 
+    
+
 
     while(INFINTE)
     {
-        Voting();
+        vVoting();
     }
 }
 
-void Voting()
+ISR(EXT_INT0_vect)
+{
+    vPauseVoting();
+}
+
+ISR(EXT_INT1_vect)
+{
+    vFinishVoting();
+}
+
+
+void vVoting()
 {
     u8 u8KeyPad_pressed = KEYPAD_NO_PRESSED_ALL;
     u8 u8KeyPad_pressed_prev = KEYPAD_NO_PRESSED_ALL;
@@ -104,3 +129,31 @@ void Voting()
 
     }
 }
+
+
+void vPauseVoting()
+{
+    LCD_vClearScreen();
+    LCD_vSendString("Voting Paused");
+    u8 u8ContinueButton = BUTTON_UP;
+
+    while (true)
+    {
+        u8ContinueButton = BUTTON_u8ReadButton(BUTTON_CONTINUE_PORT_ID, BUTTON_CONTINUE_PIN_ID, BUTTON_PULLED_UP);
+        
+        if (u8ContinueButton == BUTTON_UP)
+        {
+            LED_
+            break;
+        }
+
+
+    }
+}
+
+void vFinishVoting()
+{
+
+}
+
+

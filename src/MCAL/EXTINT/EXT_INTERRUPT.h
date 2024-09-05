@@ -61,9 +61,9 @@
 #define _VECTOR(N)	__vector_ ## N
 
 // Intruputs Vector
-#define INT0_vect	_VECTOR(1)
-#define INT1_vect	_VECTOR(2)
-#define INT2_vect	_VECTOR(3)
+#define EXT_INT0_vect	_VECTOR(1)
+#define EXT_INT1_vect	_VECTOR(2)
+#define EXT_INT2_vect	_VECTOR(3)
 
 
 #define  ISR(VECT_NO)		\
@@ -71,8 +71,8 @@
 			void VECT_NO(void)
 
 
-#define sei()	__asm__ __volatile__ ("sei")		//Set Global Interrupt Enable
-#define cli()	__asm__ __volatile__ ("cli")		//Close Global Interrupt
+#define sei()	__asm__ __volatile__ ("sei")		// Set Global Interrupt Enable
+#define cli()	__asm__ __volatile__ ("cli")		// Close Global Interrupt
 
 
 void EXTINT_vGlobalINT_Enable();
