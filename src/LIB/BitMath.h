@@ -1,11 +1,3 @@
-/*
- * BitMath.h
- *
- * Created: 13/8/2024 2:42:31 AM
- *  Author: Bassel Mahmoud
- */ 
-
-
 #ifndef BITMATH_H_
 #define BITMATH_H_
 
@@ -13,10 +5,7 @@
 #define ClrBit(reg,pin) reg &=(~(1<<pin))
 #define GetBit(reg,pin) (reg>>pin)&1
 #define TogBit(reg,pin) reg ^=(1<<pin)
+#define MaskReg(reg,mask) reg &=mask
+#define PostMaskSet(reg,bits,shift) reg |=(bits<<shift)
 
-
-
-
-
-
-#endif /* BITMATH_H_ */
+#endif

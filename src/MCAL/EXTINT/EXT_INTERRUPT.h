@@ -25,32 +25,40 @@
 
 // Sense Control Registers
 #define MCUCR                *((volatile u8*) 0x55)
+
+#define MCUCR_ISC0_MASK 0b11111100
+#define MCUCR_ISC1_MASK 0b11110011
+
 #define MCUCR_ISC00          0
 #define MCUCR_ISC01          1
 #define MCUCR_ISC10          2
 #define MCUCR_ISC11          3
 
-#define MCUCSR               *((volatile u8*) 0x54)
+
+#define MCUCSR *((volatile u8*) 0x54)
+#define MCUCSR_ISC2_MASK 0b10111111
 #define MCUCSR_ISC2          6
 
 // Sense Control
-#define      LOW_LEVEL        0
-#define      LOGICAL_CHANGE   1
-#define      FALLNG_EDGE      2
-#define      RISING_EDGE      3
+#define LOW_LEVEL   0
+#define LOGICAL_CHANGE  1
+#define FALLNG_EDGE     2
+#define RISING_EDGE     3
+
+#define IC2_SENSE_MASK 0b1
 
 // Intruput IDs and Enable Bit
-#define EXT_INT0_ID     6
-#define EXT_INT1_ID     7
-#define EXT_INT2_ID     5
+#define EXT_INT0_ID 6
+#define EXT_INT1_ID 7
+#define EXT_INT2_ID 5
 
 // Intruput IDs
-#define _VECTOR(N)		__vector_ ## N
+#define _VECTOR(N)	__vector_ ## N
 
 // Intruputs Vector
-#define INT0_vect		_VECTOR(1)
-#define INT1_vect		_VECTOR(2)
-#define INT2_vect		_VECTOR(3)
+#define INT0_vect	_VECTOR(1)
+#define INT1_vect	_VECTOR(2)
+#define INT2_vect	_VECTOR(3)
 
 
 #define  ISR(VECT_NO)		\
@@ -58,8 +66,8 @@
 			void VECT_NO(void)
 
 
-#define sei()		__asm__ __volatile__ ("sei")		//Set Global Interrupt Enable
-#define cli()		__asm__ __volatile__ ("cli")		//Close Global Interrupt
+#define sei()	__asm__ __volatile__ ("sei")		//Set Global Interrupt Enable
+#define cli()	__asm__ __volatile__ ("cli")		//Close Global Interrupt
 
 
 void EXTINT_vGlobalINT_Enable();
