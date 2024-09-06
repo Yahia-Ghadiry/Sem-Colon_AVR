@@ -3,8 +3,9 @@
 #include "../LIB/BitMath.h"
 #include "../LIB/STD_types.h"
 #include "../MCAL/EXTINT/EXT_INTERRUPT.h"
-#include "../HAL/LCD/LCD.h"
+#include "../HAL/LED/LED.h"
 #include "../HAL/BUTTON/Button.h"
+#include "../HAL/LCD/LCD.h"
 #include "../HAL/KEYPAD/Keypad.h"
 #include <util/delay.h>
 
@@ -17,19 +18,31 @@
 
 #define LED_PAUSED_PORT_ID PORTC_ID
 #define LED_PAUSED_PIN_ID PIN6_ID
+#define LED_FINISHED_PORT_ID PORTC_ID
+#define LED_FINISHED_PIN_ID PIN6_ID
 
 
 #define ON_OFF_KEY 0
 #define KEYPAD_SYMBOlS (volatile char[4 * 4]){'7', '8', '9', '/', '4', '5', '6', '*', '1', '2', '3', '-', ON_OFF_KEY, '0', '=', '+'} 
 #define ON_OFF_KEY_INDEX 12
 
-#define VOTEING_A_INDEX 3
-#define VOTEING_B_INDEX 7
-#define VOTEING_C_INDEX 11
-#define VOTEING_D_INDEX 15
+#define VOTEING_A_BUTTON_INDEX 3
+#define VOTEING_B_BUTTON_INDEX 7
+#define VOTEING_C_BUTTON_INDEX 11
+#define VOTEING_D_BUTTON_INDEX 15
+
+#define VOTERS_COUNT 4
+#define VOTER_A_ID 0
+#define VOTER_B_ID 0
+#define VOTER_C_ID 0
+#define VOTER_D_ID 0
 
 
-void vVoting();
+u8 u8Voters[] = {0, 0, 0, 0};
+char u8VotersNames[] = {'A', 'B', 'C', 'D'};
+
+void vGetVoting();
+void vDisplayVoting();
 void vPauseVoting();
 void vFinishVoting();
 
@@ -39,6 +52,8 @@ int main(void)
     EXTINT_vInit(EXT_INT0_ID, RISING_EDGE);
     EXTINT_vInit(EXT_INT2_ID, RISING_EDGE);
     
+    LED_vInit(LED_PAUSED_PORT_ID, LED_PAUSED_PIN_ID, LED_MODE_1_ON);
+    LED_vInit(LED_FINISHED_PORT_ID, LED_FINISHED_PIN_ID, LED_MODE_1_ON);
 
     BUTTON_vInitButton(BUTTON_CONTINUE_PORT_ID, BUTTON_CONTINUE_PIN_ID, PIN_PULL_UP);
 
@@ -47,10 +62,11 @@ int main(void)
     KEYPAD_vInit(KEYPAD_PULL_UP); 
     
 
+    vDisplayVoting();
 
     while(INFINTE)
     {
-        vVoting();
+        vGetVoting();
     }
 }
 
@@ -64,18 +80,29 @@ ISR(EXT_INT1_vect)
     vFinishVoting();
 }
 
+void vDisplayVoting()
+{
+    LCD_vClearScreen();;
+ 
+    LCD_vClearScreen();
+    LCD_vSendString("A=");
+    LCD_vSendInt(u8Voters[VOTER_A_ID]);
+    LCD_vMoveCursor(LCD_LINE1_POSITION | LCD_CHAR9_POSITION);
+    LCD_vSendString("B=");
+    LCD_vSendInt(u8Voters[VOTER_B_ID]);
+    LCD_vMoveCursor(LCD_LINE2_POSITION | LCD_CHAR1_POSITION);
+    LCD_vSendString("C=");
+    LCD_vSendInt(u8Voters[VOTER_C_ID]);
+    LCD_vMoveCursor(LCD_LINE2_POSITION | LCD_CHAR9_POSITION);
+    LCD_vSendString("D=");
+    LCD_vSendInt(u8Voters[VOTER_D_ID]);
 
-void vVoting()
+}
+
+void vGetVoting()
 {
     u8 u8KeyPad_pressed = KEYPAD_NO_PRESSED_ALL;
     u8 u8KeyPad_pressed_prev = KEYPAD_NO_PRESSED_ALL;
-        
-    u8 u8VoterA = 0;
-    u8 u8VoterB = 0;
-    u8 u8VoterC = 0;
-    u8 u8VoterD = 0;
-
-    LCD_vClearScreen();
     
     while(INFINTE)
     {
@@ -85,42 +112,27 @@ void vVoting()
         {
             if (u8KeyPad_pressed == ON_OFF_KEY_INDEX)
             {
-                u8VoterA = 0;
-                u8VoterB = 0;
-                u8VoterC = 0;
-                u8VoterD = 0;
+                u8Voters[0] = 0;
             }
             else
             {
                 switch (u8KeyPad_pressed)
                 {
-                    case VOTEING_A_INDEX:
-                        u8VoterA++;
+                    case VOTEING_A_BUTTON_INDEX:
+                        u8Voters[VOTER_A_ID]++;
                         break;
-                    case VOTEING_B_INDEX:
-                        u8VoterB++;
+                    case VOTEING_B_BUTTON_INDEX:
+                        u8Voters[VOTER_B_ID]++;
                         break;
-                    case VOTEING_C_INDEX:
-                        u8VoterC++;
+                    case VOTEING_C_BUTTON_INDEX:
+                        u8Voters[VOTER_C_ID]++;
                         break;
-                    case VOTEING_D_INDEX:
-                        u8VoterD++;
+                    case VOTEING_D_BUTTON_INDEX:
+                        u8Voters[VOTER_D_ID]++;
                         break;
                 }
             }
-            
-            LCD_vClearScreen();
-            LCD_vSendString("A=");
-            LCD_vSendInt(u8VoterA);
-            LCD_vMoveCursor(LCD_LINE1_POSITION | LCD_CHAR9_POSITION);
-            LCD_vSendString("B=");
-            LCD_vSendInt(u8VoterB);
-            LCD_vMoveCursor(LCD_LINE2_POSITION | LCD_CHAR1_POSITION);
-            LCD_vSendString("C=");
-            LCD_vSendInt(u8VoterC);
-            LCD_vMoveCursor(LCD_LINE2_POSITION | LCD_CHAR9_POSITION);
-            LCD_vSendString("D=");
-            LCD_vSendInt(u8VoterD);
+            vDisplayVoting();
         }
 
         u8KeyPad_pressed_prev = u8KeyPad_pressed;
@@ -135,6 +147,8 @@ void vPauseVoting()
 {
     LCD_vClearScreen();
     LCD_vSendString("Voting Paused");
+    LED_vTurnOn(LED_PAUSED_PORT_ID, LED_PAUSED_PIN_ID, LED_MODE_1_ON);
+    
     u8 u8ContinueButton = BUTTON_UP;
 
     while (true)
@@ -143,17 +157,70 @@ void vPauseVoting()
         
         if (u8ContinueButton == BUTTON_UP)
         {
-            LED_
+            LED_vTurnOff(LED_PAUSED_PORT_ID, LED_PAUSED_PIN_ID, LED_MODE_1_ON);
+            vDisplayVoting();
             break;
         }
-
+        
+        _delay_ms(REACTION_DELAY);
 
     }
 }
 
 void vFinishVoting()
 {
+    LCD_vClearScreen();
+    LCD_vSendString("Voting Finished");
+    LED_vTurnOn(LED_FINISHED_PORT_ID, LED_FINISHED_PIN_ID, LED_MODE_1_ON);
+    
+    u8 u8HighestVotes = 0;
+    u8 u8NumeberTies = 0;
+    char u8Winner;
 
+    for (u8 i = VOTER_A_ID; i < VOTERS_COUNT; i++)
+    {
+        if (u8HighestVotes < u8Voters[i])
+        {
+            u8HighestVotes = u8Voters[i];
+        }
+    }
+    for (u8 i = VOTER_A_ID; i < VOTERS_COUNT; i++)
+    {
+        if (u8HighestVotes == u8Voters[i])
+        {
+            u8NumeberTies++;
+            u8Winner = u8VotersNames[i];
+        }
+    }
+    
+    LCD_vMoveCursor(LCD_LINE2_POSITION | LCD_CHAR1_POSITION);
+
+    if (u8NumeberTies == 1)
+    {
+        LCD_vSendData(u8Winner);
+        LCD_vSendString(" Is the Winner");
+    }
+    else if (u8NumeberTies > 1)
+    {
+        LCD_vSendData('0' + u8NumeberTies);
+        LCD_vSendString(" Ties");
+    }
+
+    u8 u8ContinueButton = BUTTON_UP;
+
+    while (true)
+    {
+        u8ContinueButton = BUTTON_u8ReadButton(BUTTON_CONTINUE_PORT_ID, BUTTON_CONTINUE_PIN_ID, BUTTON_PULLED_UP);
+        
+        if (u8ContinueButton == BUTTON_UP)
+        {
+            LED_vTurnOff(LED_FINISHED_PORT_ID, LED_FINISHED_PIN_ID, LED_MODE_1_ON);
+            break;
+        }
+        
+        _delay_ms(REACTION_DELAY);
+
+    }
 }
 
 
