@@ -11,28 +11,28 @@
 #define SREG_I  7 
 
 // Prephiral Interrupt Enable
-#define GICR                 *((volatile u8*) 0x5B)
-#define GICR_INT0            6
-#define GICR_INT1            7
-#define GICR_INT2            5
+#define GICR *((volatile u8*) 0x5B)
+#define GICR_INT0 6
+#define GICR_INT1 7
+#define GICR_INT2 5
 
 // Prephiral Interrupt Flag
-#define GIFR                 *((volatile u8*) 0x5A)  //General Interrupt Flag Register -------- EXTINT flag
-#define GIFR_INT0            6
-#define GIFR_INT1            7
-#define GIFR_INT2            5
+#define GIFR *((volatile u8*) 0x5A)  //General Interrupt Flag Register -------- EXTINT flag
+#define GIFR_INT0 6
+#define GIFR_INT1 7
+#define GIFR_INT2 5
 
 
 // Sense Control Registers
-#define MCUCR                *((volatile u8*) 0x55)
+#define MCUCR *((volatile u8*) 0x55)
 
 #define MCUCR_ISC0_MASK 0b11111100
 #define MCUCR_ISC1_MASK 0b11110011
 
-#define MCUCR_ISC00          0
-#define MCUCR_ISC01          1
-#define MCUCR_ISC10          2
-#define MCUCR_ISC11          3
+#define MCUCR_ISC00 0
+#define MCUCR_ISC01 1
+#define MCUCR_ISC10 2
+#define MCUCR_ISC11 3
 
 
 #define MCUCSR *((volatile u8*) 0x54)

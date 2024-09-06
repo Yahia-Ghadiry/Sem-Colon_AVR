@@ -50,7 +50,6 @@ void LCD_vSendString(const u8 *sString)
     while (sString[i] != '\0')
     {
         LCD_vSendData(sString[i]);
-        PORTD = sString[i];
         i++;
     }
 }

@@ -10,7 +10,7 @@
 
 // KeyPad Port
 
-#define KEYPAD_PORT_ID PORTD_ID
+#define KEYPAD_PORT_ID PORTC_ID
 #define KEYPAD_PORT_DIRECTION 0xF0
 
 #define KEYPAD_ROW_LENGTH 4
