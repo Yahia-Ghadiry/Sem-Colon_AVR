@@ -1,8 +1,8 @@
 #ifndef BUTTON_H_
 #define BUTTON_H_
 
-#include "../../LIB/STD_types.h"
-#include "../../MCAL/DIO/DIO.h"
+#include "LIB/STD_types.h"
+#include "MCAL/DIO/DIO.h"
 
 #define BUTTON_PULLED_UP 1
 #define BUTTON_PULLED_DOWN 0

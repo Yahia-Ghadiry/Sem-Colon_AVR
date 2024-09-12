@@ -1,8 +1,8 @@
 #ifndef EXT_INTERRUPT_H
 #define EXT_INTERRUPT_H
 
-#include "../../LIB/STD_types.h"
-#include "../../LIB/BitMath.h"
+#include "LIB/STD_types.h"
+#include "LIB/BitMath.h"
 
 #define NULL 0
 

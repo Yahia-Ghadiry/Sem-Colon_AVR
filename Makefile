@@ -11,6 +11,7 @@ OBJS := $(patsubst $(SRC_DIR)/%.c,$(BLD_DIR)/%.o,$(SRCS))
 CC := avr-gcc
 CFLAGS := -mmcu=atmega32
 CFLAGS += -O3
+CFLAGS += -Isrc
 
 .PHONY: all clean
 .SECONDEXPANSION:

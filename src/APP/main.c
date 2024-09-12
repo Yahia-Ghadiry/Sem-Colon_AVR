@@ -1,12 +1,12 @@
 #define F_CPU 8000000UL
 
-#include "../LIB/BitMath.h"
-#include "../LIB/STD_types.h"
-#include "../MCAL/EXTINT/EXT_INTERRUPT.h"
-#include "../HAL/LED/LED.h"
-#include "../HAL/BUTTON/Button.h"
-#include "../HAL/LCD/LCD.h"
-#include "../HAL/KEYPAD/Keypad.h"
+#include "LIB/BitMath.h"
+#include "LIB/STD_types.h"
+#include "MCAL/EXTINT/EXT_INTERRUPT.h"
+#include "HAL/LED/LED.h"
+#include "HAL/BUTTON/Button.h"
+#include "HAL/LCD/LCD.h"
+#include "HAL/KEYPAD/Keypad.h"
 #include <util/delay.h>
 
 #define INFINTE 1

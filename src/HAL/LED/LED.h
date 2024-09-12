@@ -1,8 +1,8 @@
 #ifndef _LCD_H
 #define _LCD_H
 
-#include "../../LIB/STD_types.h"
-#include "../../MCAL/DIO/DIO.h"
+#include "LIB/STD_types.h"
+#include "MCAL/DIO/DIO.h"
 
 #define LED_MODE_0_ON 1
 #define LED_MODE_1_ON 0

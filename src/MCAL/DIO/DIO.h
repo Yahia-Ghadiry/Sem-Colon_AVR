@@ -1,8 +1,8 @@
 #ifndef DIO_H_
 #define DIO_H_
 
-#include "../../LIB/BitMath.h"
-#include "../../LIB/STD_types.h"
+#include "LIB/BitMath.h"
+#include "LIB/STD_types.h"
 
 
 #define PORTA	*( (volatile u8 *) 0x3B)

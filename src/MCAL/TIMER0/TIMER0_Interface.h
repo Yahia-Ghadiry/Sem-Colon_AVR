@@ -11,6 +11,6 @@ void Timer0_vStop(void);
 void Timer0_vStart(void);
 void Timer0_vEnableInt(u8 u8IntId);
 void Timer0_vDisableInt(u8 u8IntId);
-void Timer0_vSetTime(u32 u8DesiredTime_ms);
+void Timer0_vSetTime(u32 u32DesiredTime_ms);
 
 #endif 

@@ -3,9 +3,9 @@
 
 #define F_CPU 8000000UL
 
-#include "../../LIB/BitMath.h"
-#include "../../LIB/STD_types.h"
-#include "../../MCAL/DIO/DIO.h"
+#include "LIB/BitMath.h"
+#include "LIB/STD_types.h"
+#include "MCAL/DIO/DIO.h"
 #include <util/delay.h>
 
 // LCD Ports
