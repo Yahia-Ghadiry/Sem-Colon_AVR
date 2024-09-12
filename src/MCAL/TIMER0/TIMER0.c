@@ -1,11 +1,3 @@
-/*
- * TIMER0_program.c
- *
- * Created: 9/2/2024 4:37:55 PM
- *  Author: Mohamed Mamdouh
- */ 
-
-
 #include "TIMER0_Private.h"
 #include "TIMER0_Config.h"
 #include "TIMER0_Interface.h"
@@ -18,56 +10,52 @@ u32  Timer0_NumOfCM = 0;
 
 void Timer0_vInit(void)
 {
-	// step 1 : config Timer Mode
-	
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    #if (TIMER0_MODE == TIMER0_NORMAL_MODE)
+        ClrBit(TCCR0, WGM00);
+        ClrBit(TCCR0, WGM01);
+    #elif (TIMER0_MODE == TIMER0_CTC_MODE )
+        ClrBit(TCCR0, WGM00);
+        SetBit(TCCR0, WGM01);
+    #elif (TIMER0_MODE == TIMER0_PHASECORRECT_MODE)
+        SetBit(TCCR0, WGM00);
+        ClrBit(TCCR0, WGM01);
+    #elif (TIMER0_MODE == TIMER0_FASTPWM_MODE)
+        SetBit(TCCR0, WGM00);
+        SetBit(TCCR0, WGM01);
+    #endif
 }
 
 
-void Timer0_vEnableInt(u8 IntId)
+void Timer0_vEnableInt(u8 u8IntId)
 {
-	// step 2 : Enable interrupt Mode
+    switch (u8IntId)
+    {
+        case TIMER0_OVF_INT_ID:
+            SetBit(TIFR, TOIE0);
+            sei();
+            break;
+        case TIMER0_COMP_MATCH_INT_ID:
+            SetBit(TIFR, OCIE0);
+            sei();
+            break;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    }
 }
 
 
-void Timer0_vDisableInt(u8 IntId)
+void Timer0_vDisableInt(u8 u8IntId)
 {
-	// step 1 : config Timer Mode
+    switch (u8IntId)
+    {
+        case TIMER0_OVF_INT_ID:
+            ClrBit(TIFR, TOIE0);
+            sei();
+            break;
+        case TIMER0_COMP_MATCH_INT_ID:
+            ClrBit(TIFR, OCIE0);
+            sei();
+            break;
+    }
 }
 
 

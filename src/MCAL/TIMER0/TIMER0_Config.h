@@ -14,7 +14,7 @@
 
 
 
-//   choose from :
+//choose from :
 /*  TIMER0_NORMAL_MODE
 *   TIMER0_CTC_MODE
 *   TIMER0_PHASECORRECT_MODE

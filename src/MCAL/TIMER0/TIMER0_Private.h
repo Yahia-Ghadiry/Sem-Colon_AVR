@@ -31,7 +31,7 @@
 #define CS01 1
 #define CS00 0
 
-// TIMSK BITS
+// TIFR BITS
 #define TOIE0 0 // Timer Overflow Interrupt Enable
 #define OCIE0 1 // Output Compore Interrupt Enable
 
@@ -40,6 +40,7 @@
 #define TIMER0_CTC_MODE 1
 #define TIMER0_PHASECORRECT_MODE 2
 #define TIMER0_FASTPWM_MODE 3
+
 
 // Timer Prescaler, Source : CS
 #define TIMER0_DISCONNECT 0
