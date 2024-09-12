@@ -4,10 +4,10 @@
 #include "../../LIB/STD_types.h"
 #include "../../LIB/BitMath.h"
 
-#define NULL                 0
+#define NULL 0
 
 // Global Interrupt Enable
-#define SREG    *((volatile u8*) 0x5F) 
+#define SREG *((volatile u8*) 0x5F) 
 #define SREG_I  7 
 
 // Prephiral Interrupt Enable
@@ -61,9 +61,9 @@
 #define _VECTOR(N)	__vector_ ## N
 
 // Intruputs Vector
-#define EXT_INT0_vect	_VECTOR(1)
-#define EXT_INT1_vect	_VECTOR(2)
-#define EXT_INT2_vect	_VECTOR(3)
+#define EXT_INT0_vect _VECTOR(1)
+#define EXT_INT1_vect _VECTOR(2)
+#define EXT_INT2_vect _VECTOR(3)
 
 
 #define  ISR(VECT_NO)		\

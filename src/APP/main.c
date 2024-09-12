@@ -73,7 +73,6 @@ ISR(EXT_INT0_vect)
 {
     vPauseVoting();
 }
-
 ISR(EXT_INT1_vect)
 {
     vFinishVoting();
