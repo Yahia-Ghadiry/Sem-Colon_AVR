@@ -2,8 +2,6 @@
 #include "TIMER0_Config.h"
 #include "TIMER0_Interface.h"
 #include "LIB/BitMath.h"
-#include "../EXTINT/EXT_INTERRUPT.h"
-#include <stdlib.h>
 
 u32  Timer0_NumOfOV = 0;
 u32  Timer0_NumOfCM = 0;
@@ -70,11 +68,14 @@ void Timer0_vStop(void)
 }
 
 
-void Timer0_vSetTime(u32 u32DesiredTime_ms)
+void Timer0_vSetTime_ms(u32 u32DesiredTime_ms)
 {
-
-	
-	#if( TIMER0_MODE ==  TIMER0_NORMAL_MODE )
+    u32 prescallerArray[8] = {0, 1, 8, 64, 256, 1024, 1, 1};
+    
+    u32 u32TickTime_us = prescallerArray[TIMER0_PRESCALER] / F_OSC;
+    u32 u32TotalTicks = (u32DesiredTime_ms * 1000 )/ u32TickTime_us;
+    #if( TIMER0_MODE ==  TIMER0_NORMAL_MODE )
+        Timer0_NumOfOV = u32TotalTicks / 256;
 	#elif( TIMER0_MODE ==  TIMER0_CTC_MODE )
 	u8 Maximum_Count = 255;
 

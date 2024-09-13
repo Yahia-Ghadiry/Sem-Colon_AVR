@@ -3,8 +3,7 @@
 
 #include "LIB/STD_types.h"
 #include "LIB/BitMath.h"
-
-#define NULL 0
+#include "MCAL/INTRUPUTS_COMMON/Intruputs_Common.h"
 
 // Global Interrupt Enable
 #define SREG *((volatile u8*) 0x5F) 
@@ -57,22 +56,12 @@
 #define EXT_INT1_ID 2
 #define EXT_INT2_ID 3
 
-// Intruput IDs
-#define _VECTOR(N)	__vector_ ## N
 
 // Intruputs Vector
 #define EXT_INT0_vect _VECTOR(1)
 #define EXT_INT1_vect _VECTOR(2)
 #define EXT_INT2_vect _VECTOR(3)
 
-
-#define  ISR(VECT_NO)		\
-			void VECT_NO(void) __attribute__((signal));\
-			void VECT_NO(void)
-
-
-#define sei()	__asm__ __volatile__ ("sei")		// Set Global Interrupt Enable
-#define cli()	__asm__ __volatile__ ("cli")		// Close Global Interrupt
 
 
 void EXTINT_vGlobalINT_Enable();
