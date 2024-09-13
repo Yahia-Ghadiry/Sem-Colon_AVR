@@ -72,12 +72,29 @@ void Timer0_vSetTime_ms(u32 u32DesiredTime_ms)
 {
     u32 prescallerArray[8] = {0, 1, 8, 64, 256, 1024, 1, 1};
     
-    u32 u32TickTime_us = prescallerArray[TIMER0_PRESCALER] / F_OSC;
-    u32 u32TotalTicks = (u32DesiredTime_ms * 1000 )/ u32TickTime_us;
     #if( TIMER0_MODE ==  TIMER0_NORMAL_MODE )
+        u32 u32TickTime_us = prescallerArray[TIMER0_PRESCALER] / F_OSC;
+        u32 u32TotalTicks = (u32DesiredTime_ms * 1000 )/ u32TickTime_us;
         Timer0_NumOfOV = u32TotalTicks / 256;
 	#elif( TIMER0_MODE ==  TIMER0_CTC_MODE )
-	u8 Maximum_Count = 255;
+	    u32 Maximum_Count = 255;
+        u32 BestError = u32DesiredTime_ms;
+        u32 Error = BestError;
+        for (u8 i = 255; i > 0; i--)
+        {
+            Error = u32DesiredTime_ms % i;
+            if(Error < BestError)
+            {
+                BestError = Error;
+                Maximum_Count = i;
+            }
+            if (Error == 0)
+                break;
+        }
+        
+        u32 u32TickTime_us = prescallerArray[TIMER0_PRESCALER] / F_OSC;
+        u32 u32TotalTicks = (u32DesiredTime_ms * 1000 )/ u32TickTime_us;
+        Timer0_NumOfCM = u32TotalTicks / Maximum_Count;
 
 	#endif
 }
