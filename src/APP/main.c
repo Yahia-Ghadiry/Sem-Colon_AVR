@@ -26,27 +26,29 @@ void vDisplayRemaing();
 
 u32 counterCM = 0;
 
-u8 RemaingSec = 9;
+u8 RemaingSec = 10;
 u8 LightMode = 0;
 
 int main(void)
 {
     sei();
     
-    LED_vInit(GREEN_LED_PIN_ID, LEDS_PORT_ID, LED_MODE_1_ON);
-    LED_vInit(YELLOW_LED_PIN_ID, LEDS_PORT_ID, LED_MODE_1_ON);
-    LED_vInit(RED_LED_PIN_ID, LEDS_PORT_ID, LED_MODE_1_ON);
+    LED_vInit(LEDS_PORT_ID, GREEN_LED_PIN_ID, LED_MODE_1_ON);
+    LED_vInit(LEDS_PORT_ID, YELLOW_LED_PIN_ID, LED_MODE_1_ON);
+    LED_vInit(LEDS_PORT_ID, RED_LED_PIN_ID, LED_MODE_1_ON);
 
-
+    
     LCD_vInit(LCD_FUNCTION_SET_BAISE | LCD_2_LINE | LCD_5x8, LCD_DISPLAY_ON_OFF_CONTROL_BAISE |  LCD_DISPLAY_ON | LCD_CURSOR_OFF | LCD_BLINK_OFF, LCD_ENTRY_MODE_SET_BAISE | LCD_CURSOR_INC_MODE | LCD_SHIFT_DISPLAY_OFF);
     
     Timer0_vInit();
-    Timer0_vEnableInt(TIMER0_COMP_MATCH_INT_ID);
+    Timer0_vEnableInt(TIMER0_CM_INT_ID);
     Timer0_vStart();
     
     Timer0_vSetTime_ms(SEC_MS);
 
-
+    vDisplayRemaing();
+    LED_vTurnOn(LEDS_PORT_ID, GREEN_LED_PIN_ID, LED_MODE_1_ON);
+    
     while(INFINTE)
     {
         
@@ -69,13 +71,13 @@ ISR(TIMER0_COMP_vect)
             switch (LightMode)
             {
                 case 0:
-                    RemaingSec = 9;
+                    RemaingSec = 10;
                     break;
                 case 1:
-                    RemaingSec = 4;
+                    RemaingSec = 5;
                     break;
                 case 2:
-                    RemaingSec = 6;
+                    RemaingSec = 7;
                     break;
             }
         }
@@ -83,28 +85,28 @@ ISR(TIMER0_COMP_vect)
         switch(LightMode)
         {
             case 0:
-                LED_vTurnOn(GREEN_LED_PIN_ID, LEDS_PORT_ID, LED_MODE_1_ON);
-                LED_vTurnOff(YELLOW_LED_PIN_ID, LEDS_PORT_ID, LED_MODE_1_ON);
-                LED_vTurnOff(RED_LED_PIN_ID, LEDS_PORT_ID, LED_MODE_1_ON);
+                LED_vTurnOn(LEDS_PORT_ID, GREEN_LED_PIN_ID, LED_MODE_1_ON);
+                LED_vTurnOff(LEDS_PORT_ID, YELLOW_LED_PIN_ID, LED_MODE_1_ON);
+                LED_vTurnOff(LEDS_PORT_ID, RED_LED_PIN_ID, LED_MODE_1_ON);
                 break;
 
             case 1:
-                LED_vTurnOff(GREEN_LED_PIN_ID, LEDS_PORT_ID, LED_MODE_1_ON);
-                LED_vTurnOn(YELLOW_LED_PIN_ID, LEDS_PORT_ID, LED_MODE_1_ON);
-                LED_vTurnOff(RED_LED_PIN_ID, LEDS_PORT_ID, LED_MODE_1_ON);
+                LED_vTurnOff(LEDS_PORT_ID, GREEN_LED_PIN_ID, LED_MODE_1_ON);
+                LED_vTurnOn(LEDS_PORT_ID, YELLOW_LED_PIN_ID, LED_MODE_1_ON);
+                LED_vTurnOff(LEDS_PORT_ID, RED_LED_PIN_ID, LED_MODE_1_ON);
                 break;
 
             case 2:
-                LED_vTurnOff(GREEN_LED_PIN_ID, LEDS_PORT_ID, LED_MODE_1_ON);
-                if (RemaingSec <= 2)
+                LED_vTurnOff(LEDS_PORT_ID, GREEN_LED_PIN_ID, LED_MODE_1_ON);
+                if (RemaingSec <= 3)
                 {
-                    LED_vTurnOn(YELLOW_LED_PIN_ID, LEDS_PORT_ID, LED_MODE_1_ON);
+                    LED_vTurnOn(LEDS_PORT_ID, YELLOW_LED_PIN_ID, LED_MODE_1_ON);
                 }
                 else
                 {
-                    LED_vTurnOff(YELLOW_LED_PIN_ID, LEDS_PORT_ID, LED_MODE_1_ON);
+                    LED_vTurnOff(LEDS_PORT_ID, YELLOW_LED_PIN_ID, LED_MODE_1_ON);
                 }
-                LED_vTurnOn(RED_LED_PIN_ID, LEDS_PORT_ID, LED_MODE_1_ON);
+                LED_vTurnOn(LEDS_PORT_ID, RED_LED_PIN_ID, LED_MODE_1_ON);
                 break;
         }
         vDisplayRemaing();
@@ -115,7 +117,7 @@ void vDisplayRemaing()
 {
     LCD_vClearScreen();
     LCD_vSendString("Remaing ");
-    LCD_vSendInt(RemaingSec);
+    LCD_vSendInt(RemaingSec - 1);
     LCD_vSendString(" Sec");
 }
 

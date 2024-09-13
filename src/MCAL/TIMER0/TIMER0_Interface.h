@@ -8,7 +8,7 @@
 #define TIMER0_OVF_vect _VECTOR(11)
 
 #define TIMER0_OVF_INT_ID          0
-#define TIMER0_COMP_MATCH_INT_ID   1
+#define TIMER0_CM_INT_ID   1
 
 void Timer0_vInit(void);
 void Timer0_vStop(void);

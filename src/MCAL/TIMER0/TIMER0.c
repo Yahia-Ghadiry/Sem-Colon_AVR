@@ -29,11 +29,11 @@ void Timer0_vEnableInt(u8 u8IntId)
     switch (u8IntId)
     {
         case TIMER0_OVF_INT_ID:
-            SetBit(TIFR, TOIE0);
+            SetBit(TIMSK, TOIE0);
             sei();
             break;
-        case TIMER0_COMP_MATCH_INT_ID:
-            SetBit(TIFR, OCIE0);
+        case TIMER0_CM_INT_ID:
+            SetBit(TIMSK, OCIE0);
             sei();
             break;
 
@@ -46,10 +46,10 @@ void Timer0_vDisableInt(u8 u8IntId)
     switch (u8IntId)
     {
         case TIMER0_OVF_INT_ID:
-            ClrBit(TIFR, TOIE0);
+            ClrBit(TIMSK, TOIE0);
             break;
-        case TIMER0_COMP_MATCH_INT_ID:
-            ClrBit(TIFR, OCIE0);
+        case TIMER0_CM_INT_ID:
+            ClrBit(TIMSK, OCIE0);
             break;
     }
 }
@@ -95,7 +95,8 @@ void Timer0_vSetTime_ms(u32 u32DesiredTime_ms)
         u32 u32TickTime_us = prescallerArray[TIMER0_PRESCALER] / F_OSC;
         u32 u32TotalTicks = (u32DesiredTime_ms * 1000 )/ u32TickTime_us;
         Timer0_NumOfCM = u32TotalTicks / Maximum_Count;
-
+        
+        OCR0 = Maximum_Count;
 	#endif
 }
 
