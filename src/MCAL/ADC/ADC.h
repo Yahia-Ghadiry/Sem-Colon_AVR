@@ -1,6 +1,8 @@
 #ifndef ADC_H_
 #define ADC_H_
+
 #include "LIB/STD_types.h"
+#include "LIB/BitMath.h"
 
 /* ADMUX */
 #define ADMUX				*((volatile u8*)0x27)		//ADC multiplexer selection register
@@ -9,6 +11,12 @@
 #define ADMUX_REFS0         6							//Reference selection bit0
 #define ADMUX_ADLAR         5							//ADC left adjust result
 
+#define ADMUX_MUX0          0
+#define ADMUX_MUX1          1
+#define ADMUX_MUX2          2
+#define ADMUX_MUX3          3
+#define ADMUX_MUX4          4
+#define ADC_ADMUX_MUX_MASK 0b11100000
 
 /* ADSRA */
 #define ADCSRA				*((volatile u8*)0x26)		//ADC control and status register A
@@ -46,25 +54,27 @@
 #define ADC_CHANNEL_7                  7
 
 /* Reference voltage options*/
-#define AREF 0
-#define AVCC 1
-#define internal_2_56 3
+#define ADC_REFS_AREF 0
+#define ADC_REFS_AVCC 1
+#define ADC_REFS_Internal_2_56 3
+#define ADC_REFS_MASK 0b0011111
 
-#define ADC_ref_Type AREF
+
+#define ADC_REF ADC_REFS_AREF
 
 #define ADC_MAXIMUM_VALUE    1023
 #define ADC_REF_VOLT_VALUE   5
 
 
 /* Pre-scaler options*/
-#define ADC_Divide_by_2 0
-#define ADC_Divide_by_4 2
-#define ADC_Divide_by_8 3
-#define ADC_Divide_by_16 4
-#define ADC_Divide_by_32 5
-#define ADC_Divide_by_64 6
-#define ADC_Divide_by_128 7
-
+#define ADC_PRESCALER_2 0
+#define ADC_PRESCALER_4 2
+#define ADC_PRESCALER_8 3
+#define ADC_PRESCALER_16 4
+#define ADC_PRESCALER_32 5
+#define ADC_PRESCALER_64 6
+#define ADC_PRESCALER_128 7
+#define ADC_PRESCALER_MASK 0b11111000
 
 /* Differential mode*/ 
 #define ADC1_ADC0_10x 9
